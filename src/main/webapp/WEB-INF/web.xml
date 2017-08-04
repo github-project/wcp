@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	id="WebApp_ID" version="2.5">
+	<jsp-config>
+		<jsp-property-group>
+			<url-pattern>*.jsp</url-pattern>
+			<el-ignored>false</el-ignored>
+			<page-encoding>utf-8</page-encoding>
+		</jsp-property-group>
+	</jsp-config>
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:/config/spring-*.xml</param-value>
+	</context-param>
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	<listener>  
+    <listener-class>com.farm.wcp.util.Log4jlistener</listener-class>  
+</listener>  
+	<!--  编码配置  -->
+	<filter>
+		<filter-name>Filter_Encoding</filter-name>
+		<filter-class>com.farm.web.filter.FilterEncoding</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>Filter_Encoding</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<!--  编码配置  -->
+	<!--  日志信息  -->
+	<filter>
+		<filter-name>Filter_LOGINFO</filter-name>
+		<filter-class>com.farm.web.filter.FilterLogInfo</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>Filter_LOGINFO</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<!--  日志信息  -->
+	<!--  权限验证  -->
+	<filter>
+		<filter-name>Filter_VALIDATE</filter-name>
+		<filter-class>com.farm.web.filter.FilterValidate</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>Filter_VALIDATE</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<filter>
+	   <filter-name>SpringOpenSessionInViewFilter</filter-name>
+	   <filter-class>org.springframework.orm.hibernate4.support.OpenSessionInViewFilter</filter-class>
+	 </filter>
+  	<filter-mapping>
+    	<filter-name>SpringOpenSessionInViewFilter</filter-name>
+    	<url-pattern>/*</url-pattern>
+  	</filter-mapping>
+  
+	<!--  权限验证  -->
+	<servlet>
+		<servlet-name>spring</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classpath:/config/spring-mvc.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>spring</servlet-name>
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>spring</servlet-name>
+		<url-pattern>*.html</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>SysInit</servlet-name>
+		<servlet-class>com.farm.web.task.SysInit</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	
+  <!-- ==========================PageOffice Begin================================== -->
+  <servlet>
+    <servlet-name>poserver</servlet-name> 
+    <servlet-class>com.zhuozhengsoft.pageoffice.poserver.Server</servlet-class> 
+  </servlet>
+  <servlet-mapping> 
+    <servlet-name>poserver</servlet-name> 
+    <url-pattern>/poserver.zz</url-pattern> 
+  </servlet-mapping> 
+  <servlet-mapping> 
+    <servlet-name>poserver</servlet-name> 
+    <url-pattern>/poserver.do</url-pattern> 
+  </servlet-mapping> 
+  <servlet-mapping> 
+	<servlet-name>poserver</servlet-name> 
+	<url-pattern>/pageoffice.cab</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping> 
+	<servlet-name>poserver</servlet-name> 
+	<url-pattern>/popdf.cab</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping> 
+	<servlet-name>poserver</servlet-name> 
+	<url-pattern>/sealsetup.exe</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping> 
+     <servlet-name>poserver</servlet-name> 
+     <url-pattern>/posetup.exe</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>adminseal</servlet-name> 
+    <servlet-class>com.zhuozhengsoft.pageoffice.poserver.AdminSeal</servlet-class> 
+  </servlet>
+  <servlet-mapping> 
+    <servlet-name>adminseal</servlet-name> 
+    <url-pattern>/adminseal.do</url-pattern> 
+  </servlet-mapping>
+  <servlet-mapping> 
+    <servlet-name>adminseal</servlet-name> 
+    <url-pattern>/loginseal.do</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping> 
+    <servlet-name>adminseal</servlet-name> 
+    <url-pattern>/sealimage.do</url-pattern>
+  </servlet-mapping>
+  <mime-mapping>  
+  	<extension>mht</extension>  
+  	<mime-type>message/rfc822</mime-type>  
+  </mime-mapping>
+  <context-param>
+  	<param-name>adminseal-password</param-name>
+  	<param-value>111111</param-value>
+  </context-param>
+    <context-param>
+	<param-name>posealdb-driver</param-name>
+  	<param-value>com.mysql.jdbc.Driver</param-value>
+  </context-param>
+  <context-param>
+  	<param-name>posealdb-url</param-name>
+  	<param-value>jdbc:mysql://10.21.17.128:24409/pageoffice</param-value>
+  </context-param>
+  <context-param>
+  	<param-name>posealdb-username</param-name>
+  	<param-value>cynthia</param-value>
+  </context-param>
+  <context-param>
+  	<param-name>posealdb-password</param-name>
+  	<param-value>cynthia123</param-value>
+  </context-param>
+  <!-- ========================PageOffice end========================= -->
+  <!--  <session-config>
+		<session-timeout>3</session-timeout>
+	</session-config> -->
+	
+	<mime-mapping>
+		<extension>ico</extension>
+		<mime-type>image/x-icon</mime-type>
+	</mime-mapping>
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.htm</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>default.html</welcome-file>
+		<welcome-file>default.htm</welcome-file>
+		<welcome-file>default.jsp</welcome-file>
+	</welcome-file-list>
+	<error-page>
+		<error-code>404</error-code>
+		<location>/view/web-simple/404.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/view/web-simple/500.jsp</location>
+	</error-page>
+</web-app>
